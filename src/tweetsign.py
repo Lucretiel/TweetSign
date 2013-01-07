@@ -13,11 +13,17 @@ import keys #THIS IS NOT IN GITHUB
 class SignListener(StreamListener):
     def on_status(self, status):
         print "Got a tweet!"
+        text = status.text
+        if '#mimedia' not in text:
+            print "  This tweet did not contain #mimedia..."
+            print "  Here's the tweet %s" % text
+            return True
+        
         message = {'text': '{red}{user}: {green}{tweet}',
                    'name': 'tweet',
                    'temporary': True,
                    'fields': {'user': {'text': status.user.screen_name},
-                              'tweet': {'text': status.text}}}
+                              'tweet': {'text': text}}}
         print "Assembled message %s" % message
         message = json.dumps(message)
         connection = httplib.HTTPConnection('localhost', 39999)
