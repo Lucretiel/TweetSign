@@ -22,7 +22,7 @@ def validate_sign():
         print request
         connection.request('GET', request)
         response = connection.getresponse()
-        if response.status >= 400
+        if response.status >= 400:
             raise RuntimeError('Error resetting sign', response)
         print response.read()
 
