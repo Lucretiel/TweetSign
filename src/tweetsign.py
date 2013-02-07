@@ -48,7 +48,7 @@ class SignListener(StreamListener):
             params = {'label': label, 'data': data}
             request = '/dead-simple/send?' + urllib.urlencode(params)
             print request
-            connection.request('GET', request_template % request_params)
+            connection.request('GET', request)
             result = connection.getresponse()
             print result.read()
             connection.close()
