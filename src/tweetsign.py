@@ -27,7 +27,7 @@ def validate_sign():
             raise RuntimeError('Error resetting sign', response)
         print response.read()
 
-    request = '/dead-simple/send?text={red}{a}: {green}{b}'
+    request = '/dead-simple/send?text={red}{a}:%20{green}{b}'
     print request
     connection.request('GET', request)
     response = connection.getresponse()
@@ -60,5 +60,5 @@ if __name__ == '__main__':
     auth = OAuthHandler(keys.consumer_key, keys.consumer_secret)
     auth.set_access_token(keys.access_token, keys.access_token_secret)
 
-    stream = Stream(auth, listener)    
+    stream = Stream(auth, listener)
     stream.filter(track=['mimedia'])
