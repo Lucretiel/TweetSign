@@ -7,6 +7,7 @@ Created on Jan 7, 2013
 from tweepy import StreamListener, OAuthHandler, Stream
 import json
 import httplib
+import urllib
 
 import keys #THIS IS NOT IN GITHUB
 
@@ -36,14 +37,13 @@ class SignListener(StreamListener):
     def on_status(self, status):
         print "Got a tweet!"
 
-        request_template = '/dead-simple/send?label=%s&text=%s'
-
         labels = ('a', 'b')
         data = (status.user.screen_name, status.text)
 
         connection = HTTPConnection('localhost', 39999)
-        for request_params in zip(labels, data):
-            request = request_template % request_params
+        for label, data in zip(labels, data):
+            params = {'label': label, 'data': data}
+            request = '/dead-simple/send?' + urllib.urlencode(params)
             print request
             connection.request('GET', request_template % request_params)
             result = connection.getresponse()
