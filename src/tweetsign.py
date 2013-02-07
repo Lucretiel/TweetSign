@@ -30,7 +30,10 @@ def validate_sign():
     request = '/dead-simple/send?text={red}{a}: {green}{b}'
     print request
     connection.request('GET', request)
-    print connection.getresponse().read()
+    response = connection.getresponse()
+    if response.status >= 400:
+        raise RuntimeError('Error resetting sign', response)
+    print response.read()
     connection.close()
 
 class SignListener(StreamListener):
