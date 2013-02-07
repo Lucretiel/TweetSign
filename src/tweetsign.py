@@ -43,7 +43,7 @@ class SignListener(StreamListener):
         labels = ('a', 'b')
         data = (status.user.screen_name, status.text)
 
-        connection = HTTPConnection('localhost', 39999)
+        connection = httplib.HTTPConnection('localhost', 39999)
         for label, data in zip(labels, data):
             params = {'label': label, 'data': data}
             request = '/dead-simple/send?' + urllib.urlencode(params)
