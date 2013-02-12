@@ -48,9 +48,6 @@ def validate_sign():
         print 'Sing is not ready. Resetting...'
         sign.reset()
 
-    print 'Initializing for twitter'
-    sign.set_text('{red}{a}: {green}{b}')
-
 class SignListener(StreamListener):
     def on_status(self, status):
         print "Got a tweet!"
@@ -61,11 +58,8 @@ class SignListener(StreamListener):
             print "Huh. 'mimedia' wasn't found in that tweet. Oh well."
             return True
 
-        labels = ('a', 'b')
-        tweet = (status.user.screen_name, status.text)
-
-        map(sign.set_label, labels, tweet)
-
+        text = '{}{}: {}{}'.format('{red}', status.user.screen_name, '{green}', status.text)
+        sign.set_text(text)
 
 if __name__ == '__main__':
     validate_sign()
