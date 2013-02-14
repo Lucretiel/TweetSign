@@ -66,6 +66,8 @@ class SignListener(StreamListener):
             print "Error!"
             print "  %r" % e
 
+        return True
+
 if __name__ == '__main__':
     validate_sign()
 
