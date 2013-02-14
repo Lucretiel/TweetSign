@@ -59,7 +59,12 @@ class SignListener(StreamListener):
             return True
 
         text = '{}{}: {}{}'.format('{red}', status.user.screen_name, '{green}', status.text)
-        sign.set_text(text)
+
+        try:
+            sign.set_text(text)
+        except requests.HTTPError as e:
+            print "Error!"
+            print "  %r" % e
 
 if __name__ == '__main__':
     validate_sign()
