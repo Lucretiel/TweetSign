@@ -61,7 +61,7 @@ class SignListener(StreamListener):
         text = '{}{}: {}{}'.format('{red}', status.user.screen_name, '{green}', status.text)
 
         try:
-            sign.set_text(text)
+            sign.set_text(text=text, mode='COMPRESSED_ROTATE')
         except requests.HTTPError as e:
             print "Error!"
             print "  %r" % e
