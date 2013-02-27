@@ -51,14 +51,18 @@ def validate_sign():
 class SignListener(StreamListener):
     def on_status(self, status):
         print "Got a tweet!"
-        print "  username: %s" % status.user.screen_name
-        print "  tweet: %s" % status.text
 
-        if 'mimedia' not in status.text.lower():
+        username = str(status.user.screen_name)
+        tweet = str(status.text)
+
+        print "  username: %s" % username
+        print "  tweet: %s" % tweet
+
+        if 'mimedia' not in tweet.lower():
             print "Huh. 'mimedia' wasn't found in that tweet. Oh well."
             return True
 
-        text = '{}{}: {}{}'.format('{red}', status.user.screen_name, '{green}', status.text)
+        text = '{}{}: {}{}'.format('{red}', username, '{green}', tweet)
 
         try:
             sign.set_text(text=text, mode='COMPRESSED_ROTATE')
