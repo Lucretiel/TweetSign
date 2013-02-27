@@ -20,7 +20,7 @@ class DeadSimpleSign:
         return result.json()['ready']
 
     def reset(self):
-        requests.get(self.url_template.format('reset')).raise_for_status()
+        requests.get(self.url_template.format('reset'),).raise_for_status()
 
     def _send(self, text, color, mode, label):
         payload = {'text': text}
@@ -48,26 +48,36 @@ def validate_sign():
         print 'Sing is not ready. Resetting...'
         sign.reset()
 
+class MimediaNotInTweet(Exception):
+    pass
+
 class SignListener(StreamListener):
     def on_status(self, status):
-        print "Got a tweet!"
-
-        username = str(status.user.screen_name)
-        tweet = str(status.text)
-
-        print "  username: %s" % username
-        print "  tweet: %s" % tweet
-
-        if 'mimedia' not in tweet.lower():
-            print "Huh. 'mimedia' wasn't found in that tweet. Oh well."
-            return True
-
-        text = '{}{}: {}{}'.format('{red}', username, '{green}', tweet)
-
         try:
+            print "Got a tweet!"
+
+            username = str(status.user.screen_name)
+            tweet = str(status.text)
+
+            print "  username: %s" % username
+            print "  tweet: %s" % tweet
+            if 'mimedia' not in tweet.lower():
+                raise MimediaNotInTweet
+
+            text = '{}{}: {}{}'.format('{red}', username, '{green}', tweet)
             sign.set_text(text=text, mode='COMPRESSED_ROTATE')
+
         except requests.HTTPError as e:
-            print "Error!"
+            print "HTTPError!"
+            print "  %r" % e
+        except UnicodeEncodeError:
+            print "That is not a reasonable tweet."
+            print "%s, you almost broke a server today." % username
+            print "I hope you're happy"
+        except MimediaNotInTweet:
+            print "Huh. 'mimedia' wasn't actually in that tweet"
+        except Exception as e:
+            print "There was some error. This one:"
             print "  %r" % e
 
         return True
