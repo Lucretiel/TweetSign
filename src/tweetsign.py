@@ -86,11 +86,9 @@ class SignListener(StreamListener):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    group = parser.add_mutually_exclusive_group(required=True)
-
-    group.add_argument('-f', '--follow', nargs='*')
-    group.add_argument('-t', '--track', nargs='*')
-    group.add_argument('-l', '--locations', nargs='*')
+    parser.add_argument('-f', '--follow', nargs='*')
+    parser.add_argument('-t', '--track', nargs='*')
+    parser.add_argument('-l', '--locations', nargs='*')
 
     args = vars(parser.parse_args())
 
