@@ -90,4 +90,4 @@ if __name__ == '__main__':
     auth.set_access_token(keys.access_token, keys.access_token_secret)
 
     stream = Stream(auth, listener)
-    stream.filter(track=('mimedia',), follow=('MiMedia-Tech', 'mimediaco'))
+    stream.filter(track=['mimedia'], follow=['MiMedia-Tech', 'mimediaco'])
