@@ -90,7 +90,7 @@ if __name__ == '__main__':
 
     group.add_argument('-f', '--follow', nargs='*')
     group.add_argument('-t', '--track', nargs='*')
-    group.add_argument('-l', '--location', nargs='*')
+    group.add_argument('-l', '--locations', nargs='*')
 
     args = vars(parser.parse_args())
 
