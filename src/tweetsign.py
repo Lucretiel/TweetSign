@@ -7,6 +7,7 @@ Created on Jan 7, 2013
 from tweepy import StreamListener, OAuthHandler, Stream
 import requests
 import functools
+import argparse
 
 import keys #THIS IS NOT IN GITHUB
 
@@ -83,6 +84,17 @@ class SignListener(StreamListener):
         return True
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    group = parser.add_mutually_exclusive_group(required=True)
+
+    group.add_argument('-f', '--follow', nargs='*')
+    group.add_argument('-t', '--track', nargs='*')
+    group.add_argument('-l', '--location', nargs='*')
+
+    args = vars(parser.parse_args())
+
+
     validate_sign()
 
     listener = SignListener()
@@ -90,4 +102,4 @@ if __name__ == '__main__':
     auth.set_access_token(keys.access_token, keys.access_token_secret)
 
     stream = Stream(auth, listener)
-    stream.filter(track=['mimedia'], follow=['MiMedia-Tech', 'mimediaco'])
+    stream.filter(**args)
