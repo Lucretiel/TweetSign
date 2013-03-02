@@ -51,6 +51,9 @@ def validate_sign():
 
 class MimediaNotInTweet(Exception):
     pass
+    
+class DumbTweet(Exception):
+    pass
 
 class SignListener(StreamListener):
     def on_status(self, status):
@@ -64,6 +67,8 @@ class SignListener(StreamListener):
             print "  tweet: %s" % tweet
             if 'mimedia' not in tweet.lower():
                 raise MimediaNotInTweet
+            if 'naranja' in tweet.lower() or 'mitad' in tweet.lower():
+                raise DumbTweet
 
             text = '{}{}: {}{}'.format('{red}', username, '{green}', tweet)
             sign.set_text(text=text, mode='COMPRESSED_ROTATE')
@@ -77,6 +82,8 @@ class SignListener(StreamListener):
             print "I hope you're happy"
         except MimediaNotInTweet:
             print "Huh. 'mimedia' wasn't actually in that tweet"
+        except DumbTweet:
+            print "That was probably a dumb spanish tweet"
         except Exception as e:
             print "There was some error. This one:"
             print "  %r" % e
